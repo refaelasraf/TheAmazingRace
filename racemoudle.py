@@ -1,5 +1,6 @@
-import runner
 import asyncio
+
+import runner
 
 
 def start_race(first: runner.Runner, second: runner.Runner):
@@ -10,9 +11,15 @@ def start_race(first: runner.Runner, second: runner.Runner):
     loop.close()
 
 
-async def __run(r: runner.Runner, race_length: int, loop: asyncio.AbstractEventLoop, counter: int = 0):
+async def __run(r: runner.Runner, race_length: int, loop: asyncio.AbstractEventLoop):
     if race_length <= 0:
-        print("the winner is " + r.name + "   time : " + str(counter))
-        loop.stop()
+        print("the winner is " + r.name)
+        __stop_all_runners()
+
     await asyncio.sleep(1)
-    await __run(r, race_length - r.step_per_sec, loop, counter + 1)
+    await __run(r, race_length - r.step_per_sec, loop)
+
+
+def __stop_all_runners():
+    for task in asyncio.Task.all_tasks():
+        task.cancel()
