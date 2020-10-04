@@ -1,7 +1,7 @@
 import asyncio
 from asyncio import CancelledError
 
-import runner
+import runner_module
 
 
 def start_race(runners: set, race_length: int):
@@ -16,14 +16,20 @@ def start_race(runners: set, race_length: int):
     loop.close()
 
 
-async def __take_a_step(r: runner.Runner, remaining_distance: int, loop: asyncio.AbstractEventLoop):
+async def __take_a_step(runner: runner_module.Runner, remaining_distance: int, loop: asyncio.AbstractEventLoop,
+                        step_number: int = 0):
     if remaining_distance <= 0:
-        print("the winner is " + r.name)
-        __stop_all_runners()
-    await asyncio.sleep(1 / r.step_per_sec)
-    await __take_a_step(r, remaining_distance - 1, loop)
+        print("the winner is " + runner.name)
+        await __stop_all_runners()
+
+    await asyncio.sleep(1 / runner.step_per_sec)
+    runner.step += 1
+    if step_number > 0 and runner.do_after_step != None:
+        await runner.do_after_step(step_number)
+    await __take_a_step(runner, remaining_distance - 1, loop, step_number + 1)
 
 
-def __stop_all_runners():
+async def __stop_all_runners():
+    await asyncio.sleep(0)
     for task in asyncio.Task.all_tasks():
         task.cancel()
