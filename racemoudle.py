@@ -3,10 +3,10 @@ import asyncio
 import runner
 
 
-def start_race(first: runner.Runner, second: runner.Runner):
+def start_race(first: runner.Runner, second: runner.Runner, race_length: int):
     loop = asyncio.get_event_loop()
-    loop.create_task(__run(first, 20, loop))
-    loop.create_task(__run(second, 20, loop))
+    loop.create_task(__run(first, race_length, loop))
+    loop.create_task(__run(second, race_length, loop))
     loop.run_forever()
     loop.close()
 
