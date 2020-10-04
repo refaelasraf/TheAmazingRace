@@ -13,6 +13,7 @@ def start_race(first: runner.Runner, second: runner.Runner, race_length: int):
         loop.run_until_complete(asyncio.gather(*pending))
     except CancelledError:
         loop.close()
+    loop.close()
 
 
 async def __run(r: runner.Runner, race_length: int, loop: asyncio.AbstractEventLoop):
