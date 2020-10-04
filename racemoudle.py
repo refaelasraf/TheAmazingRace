@@ -6,8 +6,8 @@ import runner
 
 def start_race(first: runner.Runner, second: runner.Runner, race_length: int):
     loop = asyncio.get_event_loop()
-    loop.create_task(__run(first, race_length, loop))
-    loop.create_task(__run(second, race_length, loop))
+    loop.create_task(__run(first, race_length - first.start_point, loop))
+    loop.create_task(__run(second, race_length - second.start_point, loop))
     pending = asyncio.Task.all_tasks()
     try:
         loop.run_until_complete(asyncio.gather(*pending))
