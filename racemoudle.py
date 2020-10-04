@@ -1,6 +1,5 @@
 import runner
 import asyncio
-import time
 
 
 def start_race(first: runner.Runner, second: runner.Runner):
