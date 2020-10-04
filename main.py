@@ -1,9 +1,10 @@
-import runner_module
-import racemoudle
+import runner_class
+import run_race
 import asyncio
 
-first = runner_module.Runner("rabbit", 3, 0)
-second = runner_module.Runner("turtle", 4, 0, lambda r: asyncio.sleep(1) if r.step % 3 == 0 else asyncio.sleep(0));
-third = runner_module.Runner("snail", 1, 10)
+first = runner_class.Runner("rabbit", 3, 0)
+second = runner_class.Runner("turtle", 4, 0, lambda r: asyncio.sleep(1) if r.step % 3 == 0 else asyncio.sleep(0))
+third = runner_class.Runner("snail", 1, 10)
 
-racemoudle.start_race({first, second, third}, 15)
+race = run_race.RunRace({first, second, third}, 15)
+race.start_race()
