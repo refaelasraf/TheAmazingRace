@@ -16,17 +16,16 @@ def start_race(runners: set, race_length: int):
     loop.close()
 
 
-async def __take_a_step(runner: runner_module.Runner, remaining_distance: int, loop: asyncio.AbstractEventLoop,
-                        step_number: int = 0):
+async def __take_a_step(runner: runner_module.Runner, remaining_distance: int, loop: asyncio.AbstractEventLoop):
     if remaining_distance <= 0:
         print("the winner is " + runner.name)
         await __stop_all_runners()
 
     await asyncio.sleep(1 / runner.step_per_sec)
     runner.step += 1
-    if step_number > 0 and runner.do_after_step != None:
-        await runner.do_after_step(step_number)
-    await __take_a_step(runner, remaining_distance - 1, loop, step_number + 1)
+    if runner.do_after_step is not None:
+        await runner.do_after_step(runner)
+    await __take_a_step(runner, remaining_distance - 1, loop)
 
 
 async def __stop_all_runners():
