@@ -1,10 +1,20 @@
-import runner_class
-import run_race
-import asyncio
+import Runner
+import RunRace
+import Config.runners_config as runners_config
 
-first = runner_class.Runner("rabbit", 3, 0)
-second = runner_class.Runner("turtle", 4, 0, lambda r: asyncio.sleep(1) if r.step % 3 == 0 else asyncio.sleep(0))
-third = runner_class.Runner("snail", 1, 10)
 
-race = run_race.RunRace({first, second, third}, 15)
-race.start_race()
+def main():
+    runners = []
+    for runner_config in runners_config.runners:
+        name = runner_config.get("name")
+        step_per_sec = runner_config.get("step_per_sec")
+        start_point = runner_config.get("start_point")
+        do_after_step = runner_config.get("do_after_step")
+        runners.append(Runner.Runner(name, step_per_sec, start_point, do_after_step))
+
+    race = RunRace.RunRace(runners, 15)
+    race.start_race()
+
+
+if __name__ == "__main__":
+    main()
