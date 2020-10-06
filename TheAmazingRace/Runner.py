@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import asyncio
 from typing import TypeVar
-from . import UNDONE_STEP_CHAR
-from . import DONE_STEP_CHAR
+from TheAmazingRace import UNDONE_STEP_CHAR, DONE_STEP_CHAR
 self_type = TypeVar('T', bound='Runner')
 
 
