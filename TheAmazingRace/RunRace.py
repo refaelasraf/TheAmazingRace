@@ -1,13 +1,10 @@
 import asyncio
 from typing import List
 import os
-import Config.config as config
-
-import Runner
+from . import WIN_MESSAGE_FORMAT, Runner
 
 
 class RunRace:
-    WIN_MESSAGE_FORMAT = config.run_race_constant.get("win_message_format")
 
     def __init__(self, runners: List[Runner.Runner], race_length: int):
         self.runners = runners
@@ -22,7 +19,7 @@ class RunRace:
                                    self.__register_place_of_runner))
         pending = asyncio.Task.all_tasks()
         loop.run_until_complete(asyncio.gather(*pending))
-        print(self.WIN_MESSAGE_FORMAT.format(self.places.pop(0).name))
+        print(WIN_MESSAGE_FORMAT.format(self.places.pop(0).name))
         loop.close()
 
     def __print_current_stat(self):
